@@ -1,0 +1,39 @@
+﻿<dx:ThemedWindow
+    x:Class="CartridgeStore.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:views="clr-namespace:CartridgeStore.Views"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    Title="Картриджи"
+    MinHeight="480" MinWidth="840" Width="840" Height="480" MaxHeight="720" MaxWidth="1280">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <dxb:BarContainerControl Grid.Row="0">
+            <dxb:MainMenuControl Caption="Главное Меню">
+                <dxb:BarButtonItem Content="Выдача" Name="DeliveryButton" BarItemDisplayMode="ContentAndGlyph"
+                                   Glyph="{dx:DXImage SvgImages/Arrows/MoveUp.svg}"
+                                   ItemClick="DeliveryButton_OnItemClick" />
+                <dxb:BarButtonItem Content="Поставка" Name="SupplyButton" BarItemDisplayMode="ContentAndGlyph"
+                                   Glyph="{dx:DXImage SvgImages/Arrows/MoveDown.svg}"
+                                   ItemClick="SupplyButton_OnItemClick" />
+                <dxb:BarButtonItem Content="Настройки" Name="SettingsButton" BarItemDisplayMode="ContentAndGlyph"
+                                   Glyph="{dx:DXImage SvgImages/Setup/Properties.svg}"
+                                   ItemClick="SettingsButton_OnItemClick" />
+            </dxb:MainMenuControl>
+        </dxb:BarContainerControl>
+
+        <dx:DXTabControl Grid.Row="1" Padding="5">
+            <dx:DXTabItem Header="Склад">
+                <views:StoreView />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="История">
+                <views:StoryView />
+            </dx:DXTabItem>
+        </dx:DXTabControl>
+    </Grid>
+</dx:ThemedWindow>

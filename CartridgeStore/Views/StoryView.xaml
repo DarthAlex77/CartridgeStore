@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="CartridgeStore.Views.StoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:viewModels="clr-namespace:CartridgeStore.ViewModels">
+    <UserControl.DataContext>
+        <viewModels:StoryViewModel />
+    </UserControl.DataContext>
+    <dxg:GridControl ItemsSource="{Binding Stories}" EnableSmartColumnsGeneration="True" AutoGenerateColumns="AddNew">
+        <dxg:GridControl.DetailDescriptor>
+            <dxg:DataControlDetailDescriptor ItemsSourceBinding="{Binding Cartridges}">
+                <dxg:DataControlDetailDescriptor.DataControl>
+                    <dxg:GridControl AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True">
+                        <dxg:GridControl.View>
+                            <dxg:TableView AllowEditing="False" ShowIndicator="False" AutoWidth="True" />
+                        </dxg:GridControl.View>
+                    </dxg:GridControl>
+                </dxg:DataControlDetailDescriptor.DataControl>
+            </dxg:DataControlDetailDescriptor>
+        </dxg:GridControl.DetailDescriptor>
+        <dxg:GridControl.View>
+            <dxg:TableView AutoWidth="True" ShowIndicator="False" ShowSearchPanelMode="HotKey" AllowEditing="False" AllowFixedColumnMenu="True" AllowDataUpdateFormatConditionMenu="True" AllowConditionalFormattingMenu="True" />
+        </dxg:GridControl.View>
+        <dxg:GridControl.Columns>
+            <dxg:GridColumn FieldName="DateTime" IsSmart="True" />
+            <dxg:GridColumn FieldName="IsSupply" IsSmart="True" Binding="{Binding IsSupply,Converter={StaticResource IsSupplyToStringConverter}}">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:TextEditSettings />
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            <dxg:GridColumn FieldName="Unit" IsSmart="True" Binding="{Binding Unit.Name}" />
+        </dxg:GridControl.Columns>
+    </dxg:GridControl>
+</UserControl>

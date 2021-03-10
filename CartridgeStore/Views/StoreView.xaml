@@ -1,0 +1,16 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:viewModels="clr-namespace:CartridgeStore.ViewModels"
+    x:Class="CartridgeStore.Views.StoreView">
+    <UserControl.DataContext>
+        <viewModels:StoreViewModel />
+    </UserControl.DataContext>
+
+    <dxg:GridControl ItemsSource="{Binding Cartridges}" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True">
+        <dxg:GridControl.View>
+            <dxg:TableView AutoWidth="True" ItemsSourceErrorInfoShowMode="None" ShowIndicator="False" ShowSearchPanelMode="HotKey" AllowEditing="False" AllowFixedColumnMenu="True" AllowDataUpdateFormatConditionMenu="True" AllowConditionalFormattingMenu="True" />
+        </dxg:GridControl.View>
+    </dxg:GridControl>
+</UserControl>

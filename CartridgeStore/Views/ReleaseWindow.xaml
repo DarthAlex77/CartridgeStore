@@ -1,0 +1,77 @@
+﻿<dx:ThemedWindow x:Class="CartridgeStore.Views.ReleaseWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+                 xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                 xmlns:viewModels="clr-namespace:CartridgeStore.ViewModels"
+                 xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                 xmlns:helpers="clr-namespace:CartridgeStore.Helpers"
+                 MinHeight="300" MinWidth="600" Height="300" Width="600" MaxHeight="450" MaxWidth="900">
+    <dx:ThemedWindow.DataContext>
+        <viewModels:ReleaseViewModel />
+    </dx:ThemedWindow.DataContext>
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Closing" Command="{Binding CloseWindowCommand}" PassEventArgsToCommand="True" />
+        <helpers:CloseWindowBehavior CloseTrigger="{Binding CloseWindowTrigger}" />
+    </dxmvvm:Interaction.Behaviors>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <dxe:DateEdit Grid.Column="0" Margin="3" IsTextEditable="False" MaskUseAsDisplayFormat="True"
+                          MaskCulture="ru" Mask="G" DateTime="{Binding  DeliveryDateTime,Mode=TwoWay}">
+                <dxe:DateEdit.StyleSettings>
+                    <dxe:DateEditNavigatorWithTimePickerStyleSettings />
+                </dxe:DateEdit.StyleSettings>
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand EventName="PopupOpened" Command="{Binding  StopTimerCommand }"
+                                           PassEventArgsToCommand="True" />
+                </dxmvvm:Interaction.Behaviors>
+            </dxe:DateEdit>
+            <dxe:ComboBoxEdit Grid.Column="1" Margin="3" ItemsSource="{Binding Units}" DisplayMember="Name"
+                              ValueMember="UnitId" AutoComplete="True" IncrementalFiltering="True"
+                              Validate="BaseEdit_OnValidate"
+                              IsCaseSensitiveFilter="False" SelectedItem="{Binding SelectedUnit}" />
+        </Grid>
+
+        <dxg:GridControl x:Name="Grid" Grid.Row="1" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True"
+                         ItemsSource="{Binding ReleasingCartridges}" KeyUp="DeleteFocusedRowOnDelKey"
+                         KeyDown="Grid_OnKeyDown">
+            <dxg:GridControl.View>
+                <dxg:TableView x:Name="View" ShowGroupPanel="False" AutoWidth="True" NewItemRowPosition="Top"
+                               AllowEditing="False" ShowingEditor="View_OnShowingEditor"
+                               InvalidRowException="View_OnInvalidRowException">
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxmvvm:EventToCommand EventName="ValidateRow" Command="{Binding ValidateRowCommand }"
+                                               PassEventArgsToCommand="True" />
+                        <dxmvvm:EventToCommand EventName="CellValueChanged" Command="{Binding AutoFillCommand}"
+                                               PassEventArgsToCommand="True" />
+                    </dxmvvm:Interaction.Behaviors>
+                </dxg:TableView>
+            </dxg:GridControl.View>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="BarCode" IsSmart="True" AllowEditing="True" />
+                <dxg:GridColumn FieldName="Manufacturer" IsSmart="True" AllowEditing="False" />
+                <dxg:GridColumn FieldName="Model" IsSmart="True" AllowEditing="False" />
+                <dxg:GridColumn FieldName="Qty" IsSmart="True" AllowEditing="True" />
+            </dxg:GridControl.Columns>
+        </dxg:GridControl>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button Width="75" Height="25" Margin="2" Content="Отмена" IsCancel="True" />
+            <Button Width="75" Height="25" Margin="2" Content="Выдать" IsDefault="True"
+                    Command="{Binding  ReleaseCartridgeCommand }" />
+        </StackPanel>
+
+    </Grid>
+</dx:ThemedWindow>

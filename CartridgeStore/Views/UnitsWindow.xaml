@@ -1,0 +1,33 @@
+﻿<dx:ThemedWindow x:Class="CartridgeStore.Views.UnitsWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+                 xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                 xmlns:viewModels="clr-namespace:CartridgeStore.ViewModels"
+                 xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                 xmlns:helpers="clr-namespace:CartridgeStore.Helpers"
+                 Title="Подразделения" Height="600" Width="300" ResizeMode="NoResize">
+    <dxmvvm:Interaction.Behaviors>
+        <helpers:CloseWindowBehavior CloseTrigger="{Binding CloseWindowTrigger}" />
+    </dxmvvm:Interaction.Behaviors>
+    <dx:ThemedWindow.DataContext>
+        <viewModels:UnitsViewModel />
+    </dx:ThemedWindow.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <dxg:GridControl Grid.Row="0" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True"
+                         KeyUp="DeleteFocusedRowOnDelKey"
+                         ItemsSource="{Binding Units}">
+            <dxg:GridControl.View>
+                <dxg:TableView x:Name="View" AutoWidth="True" NewItemRowPosition="Top" ShowGroupPanel="False" />
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button Content="Отмена" Margin="2" IsCancel="True" />
+            <Button Content="Принять" Margin="2" IsDefault="True" Command="{Binding ApplyUnitsCommand}" />
+        </StackPanel>
+    </Grid>
+</dx:ThemedWindow>
